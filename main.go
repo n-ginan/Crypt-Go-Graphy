@@ -5,11 +5,11 @@ import (
 	"os"
 	"io"
 )
-
 func ShiftEncryption(text string, shift rune) string {
 	var cipherText string
 	for _, char := range text {
 		if char == 10 {
+			cipherText += "S)...?S)...?"
 			continue
 		}
 		cipherText += string(((char - 94 + shift) % 66) + 94)
@@ -19,12 +19,25 @@ func ShiftEncryption(text string, shift rune) string {
 
 func ShiftDecryption(text string, shift rune) string {
 	var plainText string
-	for _, char := range text {
-		if char == 94 + shift {
+	var position int
+	for {
+		if position + 12 < len(text) {
+			if text[position:position+12] == "S)...?S)...?" {
+				plainText += "\n"
+				position += 12
+				continue
+			}
+		}
+		if rune(text[position]) == 94 + shift {
 			plainText += "-"
+			position++
 			continue
 		}
-		plainText += string(((char - 94 - shift) % 66) + 94)
+		plainText += string(((rune(text[position]) - 94 - shift) % 66) + 94)
+		position++
+		if position == len(text) {
+			break
+		}
 	}
 	return plainText
 }
@@ -54,5 +67,9 @@ func main() {
 			output += string(buf[:n])
 		}
 	}
-	fmt.Println(ShiftDecryption(ShiftEncryption(output, 2), 2))
+	testString := ShiftDecryption(ShiftEncryption(output, 2), 2)
+	fmt.Print(testString)
+	/*for position, _ := range testString {
+		fmt.Println(testString[position:position+12])
+	}*/
 }
