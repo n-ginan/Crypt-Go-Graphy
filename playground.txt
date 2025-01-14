@@ -1,0 +1,2 @@
+Hi there, you can use this txt file to play with this shenanigans of mine.
+Usage of non-utf-8 characters will crash the code. Thank you!!!
