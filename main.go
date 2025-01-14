@@ -2,8 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"io"
 )
 func ShiftEncryption(text string, shift rune) string {
 	var cipherText string
@@ -42,8 +40,18 @@ func ShiftDecryption(text string, shift rune) string {
 	return plainText
 }
 
-func main() {
-	fi, err := os.Open("playground.txt")
+func UtilMod() int {
+	var number int
+	realNumber, err := fmt.Scan(&number)
+	if err != nil {
+		fmt.Println("An error has occurred")
+		return 0
+	}
+	return realNumber % 26
+}
+
+func Main() {
+	/*fi, err := os.Open("playground.txt")
 	if err != nil {
 		panic(err)
 	}
@@ -66,10 +74,15 @@ func main() {
 		if n > 0 {
 			output += string(buf[:n])
 		}
-	}
-	testString := ShiftDecryption(ShiftEncryption(output, 2), 2)
-	fmt.Print(testString)
+	}*/
+	//testString := ShiftDecryption(ShiftEncryption(output, 2), 2)
+	//fmt.Print(testString)
 	/*for position, _ := range testString {
 		fmt.Println(testString[position:position+12])
 	}*/
+}
+
+func main() {
+	//Main()
+	fmt.Println(UtilMod())
 }
