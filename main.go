@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 )
+
 func ShiftEncryption(text string, shift rune) string {
 	var cipherText string
 	for _, char := range text {
@@ -40,14 +41,22 @@ func ShiftDecryption(text string, shift rune) string {
 	return plainText
 }
 
+func AffineEncryption(text string, a int, b int) string {
+	var plainText string
+	for _, char := range text {
+		plainText += string(((rune(a) * (char - 94) + rune(b) % 66) + 94)) // Continue Latur The Quick Maffs
+	}
+	return plainText
+}
+
 func UtilMod() int {
 	var number int
-	realNumber, err := fmt.Scan(&number)
+	_, err := fmt.Scan(&number)
 	if err != nil {
 		fmt.Println("An error has occurred")
 		return 0
 	}
-	return realNumber % 26
+	return number % 26
 }
 
 func Main() {
@@ -84,5 +93,5 @@ func Main() {
 
 func main() {
 	//Main()
-	fmt.Println(UtilMod())
+	fmt.Println(AffineEncryption("affine", 9, 2))
 }
