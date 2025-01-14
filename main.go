@@ -9,7 +9,10 @@ import (
 func ShiftEncryption(text string, shift rune) string {
 	var cipherText string
 	for _, char := range text {
-		cipherText += string(((char - 94 + shift) % 26) + 94)
+		if char == 10 {
+			continue
+		}
+		cipherText += string(((char - 94 + shift) % 66) + 94)
 	}
 	return cipherText
 }
@@ -17,10 +20,11 @@ func ShiftEncryption(text string, shift rune) string {
 func ShiftDecryption(text string, shift rune) string {
 	var plainText string
 	for _, char := range text {
-		if char == 84 {
-			char = 32 - shift
+		if char == 94 + shift {
+			plainText += "-"
+			continue
 		}
-		plainText += string(((char - 94 - shift) % 26) + 94)
+		plainText += string(((char - 94 - shift) % 66) + 94)
 	}
 	return plainText
 }
@@ -50,5 +54,5 @@ func main() {
 			output += string(buf[:n])
 		}
 	}
-	fmt.Println(ShiftDecryption(ShiftEncryption(output, 1), 1))
+	fmt.Println(ShiftDecryption(ShiftEncryption(output, 2), 2))
 }
