@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"io"
+	"os"
 )
 
 func ShiftEncryption(text string, shift rune) string {
@@ -41,10 +43,23 @@ func ShiftDecryption(text string, shift rune) string {
 	return plainText
 }
 
-func AffineEncryption(text string, a int, b int) string {
+func AffineEncryption(text string, a rune, b rune) string {
+	// This only works with small letters with no extra special characters like spaces and symbols
+	// The formula for this is just an affine function (ax + b)
+	// I should go back into this because there are still a lot to understand
+	// such as the euclidian algorithm to find the gcd
+	var cipherText string
+	for _, char := range text {
+		cipherText += string(((a * (char - 97) + b) % 26) + 97) // Continue Latur The Quick Maffs
+	}
+	return cipherText
+}
+
+func AffineDecryption(text string) string {
+	// Its possible formulation would be (3(y - 2), 3y - 6, 3y + 20)
 	var plainText string
 	for _, char := range text {
-		plainText += string(((rune(a) * (char - 94) + rune(b) % 66) + 94)) // Continue Latur The Quick Maffs
+		plainText += string(((3 * (char - 97) + 20) % 26) + 97)
 	}
 	return plainText
 }
@@ -60,7 +75,7 @@ func UtilMod() int {
 }
 
 func Main() {
-	/*fi, err := os.Open("playground.txt")
+	fi, err := os.Open("playground.txt")
 	if err != nil {
 		panic(err)
 	}
@@ -83,15 +98,14 @@ func Main() {
 		if n > 0 {
 			output += string(buf[:n])
 		}
-	}*/
-	//testString := ShiftDecryption(ShiftEncryption(output, 2), 2)
-	//fmt.Print(testString)
-	/*for position, _ := range testString {
+	}
+	testString := AffineEncryption("itonlyworkswithsmallletters", 9, 2)
+	fmt.Print(testString)
+	/*for position, _ := range testString { a = 9, b = 2
 		fmt.Println(testString[position:position+12])
 	}*/
 }
 
 func main() {
-	//Main()
-	fmt.Println(AffineEncryption("affine", 9, 2))
+	Main()
 }
